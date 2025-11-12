@@ -1,5 +1,6 @@
-import { ShoppingBag } from "lucide-react";
-import React from "react";
+"use client";
+import { ShoppingBag, Menu, X } from "lucide-react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const menuList = [
@@ -18,26 +19,73 @@ const menuList = [
 ];
 
 const Header = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div className="flex p-4 px-10 md:px-32 lg:px-48 bg-background shadow-md items-center justify-between font-orbitron">
-      <h2 className="font-medium text-lg px-2 p-1 text-primary">Jupiterax</h2>
-      <ul className="flex space-x-4">
-        {menuList.map((item) => (
-          <li key={item.name}>
-            <a
-              href={item.path}
-              className="text-primary hover:text-gray-300 transition-colors"
-            >
-              {item.name}
-            </a>
-          </li>
-        ))}
-      </ul>
-      <div className="flex items-center">
-        <ShoppingBag />
-        <Button className="ml-4">Get Started</Button>
+    <>
+      <div className="flex p-4 px-10 md:px-32 lg:px-48 bg-background shadow-md items-center justify-between font-orbitron relative">
+        <h2 className="font-medium text-lg px-2 p-1 text-primary">
+          Jupiterax
+        </h2>
+        <ul className="hidden md:flex space-x-4">
+          {menuList.map((item) => (
+            <li key={item.name}>
+              <a
+                href={item.path}
+                className="text-primary hover:text-gray-300 transition-colors"
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center gap-3">
+          <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
+            <ShoppingBag className="w-6 h-6" />
+          </div>
+          <Button className="hidden md:block">Get Started</Button>
+          <button
+            className="md:hidden text-primary"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-background shadow-lg border-t">
+          <ul className="flex flex-col p-4 space-y-3">
+            {menuList.map((item) => (
+              <li key={item.name}>
+                <a
+                  href={item.path}
+                  className="block text-primary hover:text-gray-300 transition-colors py-2 text-center"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+            <li className="pt-2">
+              <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                Get Started
+              </Button>
+            </li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

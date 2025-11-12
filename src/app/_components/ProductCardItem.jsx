@@ -15,7 +15,7 @@ const ProductCardItem = ({ product }) => {
           className="w-full h-auto object-cover rounded-md"
         />
         <div className="mt-2">
-          <h3 className="font-semibold text-lg">{product.name}</h3>
+          <h3 className="font-semibold text-lg font-orbitron">{product.name}</h3>
           <p className="mt-1 font-bold">${product.price}</p>
           <div className="flex items-center mt-2 gap-2">
             <Image
@@ -26,7 +26,7 @@ const ProductCardItem = ({ product }) => {
               className="w-8 h-8 rounded-full"
             />
             <h2 className="text-sm text-neutral-600">{product.user.name}</h2>
-            <Button className="ml-auto">Add to Cart</Button>
+            <Button className="ml-auto font-orbitron">Add to Cart</Button>
           </div>
         </div>
       </Card>

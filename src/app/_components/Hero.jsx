@@ -36,15 +36,15 @@ const FuzzyOverlay = () => {
 const ExampleContent = () => {
   return (
     <div className="relative grid h-max place-content-center space-y-6 bg-neutral-950 p-32">
-      <p className="text-center text-6xl font-black text-neutral-50">
+      <h2 className="text-center text-6xl font-black text-neutral-50 font-orbitron">
         Speed Up your Creative workflow
-      </p>
+      </h2>
       <p className="text-center text-neutral-400">
         Join a growing family of 43,436 designers, creator and makers from
         around the world
       </p>
       <div className="flex items-center justify-center gap-3">
-        <Button variant="secondary">Buy Now!</Button>
+        <Button variant="secondary" className="font-orbitron">Buy Now!</Button>
       </div>
     </div>
   );
