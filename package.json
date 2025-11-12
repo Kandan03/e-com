@@ -9,9 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.35.0",
+    "@neondatabase/serverless": "^1.0.2",
     "@radix-ui/react-slot": "^1.2.4",
+    "axios": "^1.13.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.7",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.553.0",
     "next": "16.0.1",
@@ -21,7 +26,9 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/react": "19.2.4",
     "babel-plugin-react-compiler": "1.0.0",
+    "drizzle-kit": "^0.31.6",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "tailwindcss": "^4",

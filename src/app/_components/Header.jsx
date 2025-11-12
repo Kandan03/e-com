@@ -2,6 +2,7 @@
 import { ShoppingBag, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs";
 
 const menuList = [
   {
@@ -48,6 +49,7 @@ const Header = () => {
             <ShoppingBag className="w-6 h-6" />
           </div>
           <Button className="hidden md:block">Get Started</Button>
+          <UserButton />
           <button
             className="md:hidden text-primary"
             onClick={toggleMobileMenu}
