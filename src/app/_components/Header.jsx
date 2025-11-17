@@ -2,7 +2,8 @@
 import { ShoppingBag, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 const menuList = [
   {
@@ -21,6 +22,7 @@ const menuList = [
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isSignedIn } = useUser();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -48,7 +50,11 @@ const Header = () => {
           <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
             <ShoppingBag className="w-6 h-6" />
           </div>
-          <Button className="hidden md:block">Get Started</Button>
+          {!isSignedIn && (
+            <Link href="/sign-in">
+              <Button className="hidden md:block">Get Started</Button>
+            </Link>
+          )}
           <UserButton />
           <button
             className="md:hidden text-primary"
@@ -79,11 +85,15 @@ const Header = () => {
                 </a>
               </li>
             ))}
-            <li className="pt-2">
-              <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                Get Started
-              </Button>
-            </li>
+            {!isSignedIn && (
+              <li className="pt-2">
+                <Link href="/sign-in">
+                  <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                    Get Started
+                  </Button>
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}

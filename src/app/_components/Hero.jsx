@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const FuzzyOverlayExample = () => {
   return (
@@ -44,7 +45,14 @@ const ExampleContent = () => {
         around the world
       </p>
       <div className="flex items-center justify-center gap-3">
-        <Button variant="secondary" className="font-orbitron">Buy Now!</Button>
+        <Link
+          className="text-primary hover:underline flex items-center gap-2"
+          href="/dashboard"
+        >
+          <Button variant="secondary" className="font-orbitron">
+            Buy Now!
+          </Button>
+        </Link>
       </div>
     </div>
   );
