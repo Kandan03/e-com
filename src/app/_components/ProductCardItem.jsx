@@ -9,13 +9,14 @@ const ProductCardItem = ({ product, editable = false }) => {
     <div>
       <Card className="p-3">
         {product.imageUrl && (
-          <Image
-            src={product.imageUrl}
-            alt={product.title || "Product"}
-            width={300}
-            height={300}
-            className="w-full h-auto object-cover rounded-md"
-          />
+          <div className="relative w-full h-48 overflow-hidden rounded-md bg-gray-100">
+            <Image
+              src={product.imageUrl}
+              alt={product.title || "Product"}
+              fill
+              className="object-cover"
+            />
+          </div>
         )}
         <div className="mt-2">
           <h3 className="font-semibold text-lg font-orbitron">
@@ -29,7 +30,7 @@ const ProductCardItem = ({ product, editable = false }) => {
                 alt={product.user.name || "User"}
                 width={40}
                 height={40}
-                className="w-8 h-8 rounded-full"
+                className="w-8 h-8 rounded-full object-cover"
               />
             )}
             <h2 className="text-sm text-neutral-600">{product.user?.name}</h2>
