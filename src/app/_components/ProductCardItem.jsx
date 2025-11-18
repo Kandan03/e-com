@@ -4,10 +4,11 @@ import { MoreVerticalIcon, ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import ProductEditableOption from "./ProductEditableOption";
+import Link from "next/link";
 
 const ProductCardItem = ({ product, editable = false }) => {
   return (
-    <div>
+    <Link href={`/explore/${product.id}`} className="block">
       <Card className="p-3">
         {product.imageUrl && (
           <div className="relative w-full h-48 overflow-hidden rounded-md bg-gray-100">
@@ -47,7 +48,7 @@ const ProductCardItem = ({ product, editable = false }) => {
           </div>
         </div>
       </Card>
-    </div>
+    </Link>
   );
 };
 
