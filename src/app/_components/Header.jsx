@@ -31,9 +31,11 @@ const Header = () => {
   return (
     <>
       <div className="flex p-4 px-10 md:px-32 lg:px-48 bg-background shadow-md items-center justify-between font-orbitron relative">
-        <h2 className="font-medium text-lg px-2 p-1 text-primary">
-          Jupiterax
-        </h2>
+        <Link href="/">
+          <h2 className="font-medium text-lg px-2 p-1 text-primary">
+            Jupiterax
+          </h2>
+        </Link>
         <ul className="hidden md:flex space-x-4">
           {menuList.map((item) => (
             <li key={item.name}>
@@ -88,7 +90,10 @@ const Header = () => {
             {!isSignedIn && (
               <li className="pt-2">
                 <Link href="/sign-in">
-                  <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button
+                    className="w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     Get Started
                   </Button>
                 </Link>

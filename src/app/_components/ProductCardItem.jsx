@@ -19,7 +19,7 @@ const ProductCardItem = ({ product, editable = false }) => {
           </div>
         )}
         <div className="mt-2">
-          <h3 className="font-semibold text-lg font-orbitron">
+          <h3 className="font-semibold text-lg">
             {product.title}
           </h3>
           <p className="mt-1 font-bold">${product.price}</p>
