@@ -2,6 +2,7 @@
 import { ShoppingBag, Menu, X } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ const menuList = [
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -52,12 +53,18 @@ const Header = () => {
           <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
             <ShoppingBag className="w-6 h-6" />
           </div>
-          {!isSignedIn && (
-            <Link href="/sign-in">
-              <Button className="hidden md:block">Get Started</Button>
-            </Link>
+          {!isLoaded ? (
+            <Skeleton className="h-8 w-8 rounded-full" />
+          ) : (
+            <>
+              {!isSignedIn && (
+                <Link href="/sign-in">
+                  <Button className="hidden md:block">Get Started</Button>
+                </Link>
+              )}
+              <UserButton />
+            </>
           )}
-          <UserButton />
           <button
             className="md:hidden text-primary"
             onClick={toggleMobileMenu}
@@ -87,17 +94,23 @@ const Header = () => {
                 </a>
               </li>
             ))}
-            {!isSignedIn && (
+            {!isLoaded ? (
               <li className="pt-2">
-                <Link href="/sign-in">
-                  <Button
-                    className="w-full"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
+                <Skeleton className="h-10 w-full" />
               </li>
+            ) : (
+              !isSignedIn && (
+                <li className="pt-2">
+                  <Link href="/sign-in">
+                    <Button
+                      className="w-full"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
+                </li>
+              )
             )}
           </ul>
         </div>

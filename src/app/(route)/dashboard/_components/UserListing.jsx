@@ -2,6 +2,8 @@
 
 import ProductCardItem from "@/app/_components/ProductCardItem";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { Plus } from "lucide-react";
@@ -10,8 +12,8 @@ import React, { useEffect, useState, useCallback } from "react";
 
 const UserListing = () => {
   const [listing, setListing] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
+  const { user, isLoaded } = useUser();
 
   const GetUserProductList = useCallback(async () => {
     if (!user?.primaryEmailAddress?.emailAddress) return;
@@ -30,8 +32,12 @@ const UserListing = () => {
   }, [user?.primaryEmailAddress?.emailAddress]);
 
   useEffect(() => {
-    GetUserProductList();
-  }, [GetUserProductList]);
+    if (isLoaded && user) {
+      GetUserProductList();
+    } else if (isLoaded && !user) {
+      setLoading(false);
+    }
+  }, [GetUserProductList, isLoaded, user]);
 
   return (
     <div className="mt-5">
@@ -45,22 +51,30 @@ const UserListing = () => {
         </Link>
       </h2>
       <div>
-        {listing?.length === 0 && !loading && (
+        {listing?.length === 0 && !loading && isLoaded && (
           <h2 className="font-medium text-2xl mt-10 text-center text-gray-300">
             No Listing Found
           </h2>
         )}
 
-        {loading && (
-          <h2 className="font-medium text-xl mt-10 text-center text-gray-400">
-            Loading...
-          </h2>
-        )}
-
         <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 mt-5">
-          {listing.map((product) => (
-            <ProductCardItem key={product.id} product={product} editable={true} />
-          ))}
+          {loading || !isLoaded
+            ? Array.from({ length: 4 }).map((_, index) => (
+                <Card key={index} className="p-3">
+                  <Skeleton className="w-full h-48 rounded-md" />
+                  <div className="mt-2">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-5 w-1/4 mt-2" />
+                    <div className="flex items-center mt-2 gap-2">
+                      <Skeleton className="w-8 h-8 rounded-full" />
+                      <Skeleton className="h-4 w-1/3" />
+                    </div>
+                  </div>
+                </Card>
+              ))
+            : listing.map((product) => (
+                <ProductCardItem key={product.id} product={product} editable={true} />
+              ))}
         </div>
       </div>
     </div>

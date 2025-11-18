@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { MoreVerticalIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import ProductEditableOption from "./ProductEditableOption";
 
 const ProductCardItem = ({ product, editable = false }) => {
   return (
@@ -19,9 +20,7 @@ const ProductCardItem = ({ product, editable = false }) => {
           </div>
         )}
         <div className="mt-2">
-          <h3 className="font-semibold text-lg">
-            {product.title}
-          </h3>
+          <h3 className="font-semibold text-lg">{product.title}</h3>
           <p className="mt-1 font-bold">${product.price}</p>
           <div className="flex items-center mt-2 gap-2">
             {product.user?.image && (
@@ -37,7 +36,11 @@ const ProductCardItem = ({ product, editable = false }) => {
             {!editable ? (
               <Button className="ml-auto font-orbitron">Add to Cart</Button>
             ) : (
-              <MoreVerticalIcon className="ml-auto" />
+              <div className="ml-auto">
+                <ProductEditableOption>
+                  <MoreVerticalIcon className="w-5 h-5 cursor-pointer" />
+                </ProductEditableOption>
+              </div>
             )}
           </div>
         </div>
