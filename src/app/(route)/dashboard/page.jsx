@@ -2,6 +2,11 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserListing from "./_components/UserListing";
 
+export const metadata = {
+  title: "Dashboard - Jupiterax",
+  description: "Manage your product listings and purchases",
+};
+
 const Dashboard = () => {
   return (
     <div>

@@ -1,8 +1,8 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../../../../configs/firebase";
+import { storage } from "@/configs/firebase";
 import { NextResponse } from "next/server";
-import { db } from "../../../../configs/db";
-import { productsTable, usersTable } from "../../../../configs/schema";
+import { db } from "@/configs/db";
+import { productsTable, usersTable } from "@/configs/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { and, desc, eq, getTableColumns } from "drizzle-orm";
 
