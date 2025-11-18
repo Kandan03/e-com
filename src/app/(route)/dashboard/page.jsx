@@ -9,17 +9,34 @@ export const metadata = {
 
 const Dashboard = () => {
   return (
-    <div>
-      <h2 className="font-bold text-xl font-orbitron">Dashboard</h2>
-      <Tabs defaultValue="listing" className="mt-5">
-        <TabsList>
-          <TabsTrigger value="listing">Listing</TabsTrigger>
-          <TabsTrigger value="purchase">Purchase</TabsTrigger>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2">
+        <h1 className="font-bold text-3xl font-orbitron">Dashboard</h1>
+        <p className="text-gray-600">
+          Manage your products, track sales, and view your purchases
+        </p>
+      </div>
+      
+      <Tabs defaultValue="listing" className="w-full">
+        <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsTrigger value="listing" className="font-orbitron">
+            My Products
+          </TabsTrigger>
+          <TabsTrigger value="purchase" className="font-orbitron">
+            My Purchases
+          </TabsTrigger>
         </TabsList>
-        <TabsContent value="listing">
+        <TabsContent value="listing" className="mt-6">
           <UserListing />
         </TabsContent>
-        <TabsContent value="purchase">Change your password here.</TabsContent>
+        <TabsContent value="purchase" className="mt-6">
+          <div className="text-center py-20 bg-muted/30 rounded-lg">
+            <h3 className="text-2xl font-semibold mb-2">Coming Soon</h3>
+            <p className="text-gray-600">
+              Your purchase history will be displayed here
+            </p>
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );

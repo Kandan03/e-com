@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { MoreVerticalIcon } from "lucide-react";
+import { MoreVerticalIcon, ShoppingCartIcon } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import ProductEditableOption from "./ProductEditableOption";
@@ -16,6 +16,7 @@ const ProductCardItem = ({ product, editable = false }) => {
               alt={product.title || "Product"}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              loading="lazy"
               className="object-cover"
             />
           </div>
@@ -35,7 +36,7 @@ const ProductCardItem = ({ product, editable = false }) => {
             )}
             <h2 className="text-sm text-neutral-600">{product.user?.name}</h2>
             {!editable ? (
-              <Button className="ml-auto font-orbitron">Add to Cart</Button>
+              <Button className="ml-auto font-orbitron"><ShoppingCartIcon /></Button>
             ) : (
               <div className="ml-auto">
                 <ProductEditableOption>

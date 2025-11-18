@@ -40,24 +40,38 @@ const UserListing = () => {
   }, [GetUserProductList, isLoaded, user]);
 
   return (
-    <div className="mt-5">
-      <h2 className="font-bold text-md font-orbitron flex justify-between items-center">
-        Listing
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div>
+          <h2 className="font-bold text-xl font-orbitron">Your Products</h2>
+          <p className="text-sm text-gray-600 mt-1">
+            {!loading && `${listing.length} product${listing.length !== 1 ? 's' : ''} listed`}
+          </p>
+        </div>
         <Link href="/dashboard/add-product">
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button className="flex items-center gap-2 font-orbitron">
             <Plus className="w-4 h-4" />
-            Add Product
+            Add New Product
           </Button>
         </Link>
-      </h2>
+      </div>
       <div>
         {listing?.length === 0 && !loading && isLoaded && (
-          <h2 className="font-medium text-2xl mt-10 text-center text-gray-300">
-            No Listing Found
-          </h2>
+          <div className="text-center py-20 bg-muted/30 rounded-lg">
+            <h2 className="font-medium text-2xl mb-2">No Products Yet</h2>
+            <p className="text-gray-600 mb-6">
+              Start by adding your first product to sell
+            </p>
+            <Link href="/dashboard/add-product">
+              <Button className="font-orbitron">
+                <Plus className="w-4 h-4 mr-2" />
+                Create Your First Product
+              </Button>
+            </Link>
+          </div>
         )}
 
-        <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 mt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-5">
           {loading || !isLoaded
             ? Array.from({ length: 4 }).map((_, index) => (
                 <Card key={index} className="p-3">

@@ -12,8 +12,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
+        pathname: '/**',
       },
     ],
+    formats: ['image/webp', 'image/avif'],
   },
 };
 
