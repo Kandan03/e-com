@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useCart } from "@/contexts/CartContext";
 import axios from "axios";
 
-const CheckoutSuccess = () => {
+const SuccessContent = () => {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [loading, setLoading] = useState(true);
@@ -90,6 +90,23 @@ const CheckoutSuccess = () => {
         </div>
       </Card>
     </div>
+  );
+};
+
+const CheckoutSuccess = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto px-4 py-16 max-w-2xl">
+          <div className="text-center">
+            <Loader2 className="w-16 h-16 mx-auto text-primary animate-spin mb-6" />
+            <p className="text-gray-600">Loading...</p>
+          </div>
+        </div>
+      }
+    >
+      <SuccessContent />
+    </Suspense>
   );
 };
 
