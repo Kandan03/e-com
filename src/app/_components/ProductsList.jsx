@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import React, { useEffect, useState } from "react";
 import ProductCardItem from "./ProductCardItem";
 import axios from "axios";
+import Link from "next/link";
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +23,7 @@ const ProductsList = () => {
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, []);
 
@@ -31,7 +32,9 @@ const ProductsList = () => {
       <h2 className="font-bold text-xl flex justify-between items-center font-orbitron">
         Featured
         <span>
-          <Button className="font-orbitron">View All</Button>
+          <Link href="/store" className="inline-block ml-2 w-5 h-5">
+            <Button className="font-orbitron">View All</Button>
+          </Link>
         </span>
       </h2>
 

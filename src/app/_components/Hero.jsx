@@ -46,30 +46,16 @@ const ExampleContent = ({ heroTitle, heroSubtitle }) => {
         <h1 className="text-center text-4xl md:text-6xl font-black text-neutral-50 font-orbitron">
           {heroTitle || "Your Digital Marketplace"}
         </h1>
-        <h2 className="text-center text-2xl md:text-3xl font-bold text-primary mt-4">
+        <p className="text-center text-neutral-400 text-lg max-w-2xl mt-4 mx-auto">
           {heroSubtitle || "Speed Up Your Creative Workflow"}
-        </h2>
+        </p>
       </motion.div>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="text-center text-neutral-400 text-lg max-w-2xl mx-auto"
-      >
-        Discover and sell amazing digital products, templates, and creative assets. 
-        Join thousands of creators worldwide.
-      </motion.p>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
         className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
       >
-        <Link href="/store">
-          <Button size="lg" className="font-orbitron w-full sm:w-auto">
-            Explore Products
-          </Button>
-        </Link>
         <Link href="/dashboard">
           <Button size="lg" variant="secondary" className="font-orbitron w-full sm:w-auto">
             Start Selling
