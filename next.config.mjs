@@ -3,7 +3,6 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    domains: ['firebasestorage.googleapis.com'],
     remotePatterns: [
       {
         protocol: 'https',
