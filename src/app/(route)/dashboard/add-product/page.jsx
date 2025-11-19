@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ImageUpload from "./_components/ImageUpload";
 import axios from "axios";
 import { useUser } from "@clerk/nextjs";
@@ -21,17 +21,26 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const AddProduct = () => {
-  const categoryOptions = [
-    "Electronics",
-    "Clothing",
-    "Books",
-    "Home Appliances",
-    "Toys",
-  ];
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({});
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("/api/categories");
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      toast.error("Failed to load categories");
+    }
+  };
+
   const handleInputChange = (fieldName, fieldValue) => {
     setFormData((prev) => ({
       ...prev,
@@ -111,9 +120,10 @@ const AddProduct = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {categoryOptions.map((category, index) => (
-                    <SelectItem key={index} value={category}>
-                      {category}
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.name}>
+                      {category.icon && `${category.icon} `}
+                      {category.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

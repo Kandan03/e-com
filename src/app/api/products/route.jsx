@@ -8,20 +8,17 @@ import { and, desc, eq, getTableColumns } from "drizzle-orm";
 
 export async function POST(req) {
   try {
-    //Get FormData (Fields, Files)
     const formData = await req.formData();
     const image = formData.get("image");
     const file = formData.get("file");
     const data = JSON.parse(formData.get("data"));
 
-    //Save Product Image to Firebase Storage
     const imageName = Date.now() + ".png";
     const storageRef = ref(storage, "file/" + imageName);
 
     await uploadBytes(storageRef, image);
     const imageUrl = await getDownloadURL(storageRef);
 
-    //Save Product File/Document to Firebase Storage (if provided)
     let fileUrl = null;
     if (file && file.size > 0) {
       const originalName = file.name;
@@ -32,7 +29,6 @@ export async function POST(req) {
       fileUrl = await getDownloadURL(storageFileRef);
     }
 
-    //Save FormData along With URL into Database
     const result = await db
       .insert(productsTable)
       .values({
@@ -134,6 +130,89 @@ export async function DELETE(req) {
     console.error("Error deleting product:", e);
     return NextResponse.json(
       { error: e.message || "Failed to delete product" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(req) {
+  try {
+    const user = await currentUser();
+    
+    if (!user?.primaryEmailAddress?.emailAddress) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const formData = await req.formData();
+    const image = formData.get("image");
+    const file = formData.get("file");
+    const data = JSON.parse(formData.get("data"));
+
+    let imageUrl = null;
+    let fileUrl = null;
+
+    if (image && image.size > 0) {
+      const imageName = Date.now() + ".png";
+      const storageRef = ref(storage, "file/" + imageName);
+      await uploadBytes(storageRef, image);
+      imageUrl = await getDownloadURL(storageRef);
+    }
+
+    if (file && file.size > 0) {
+      const originalName = file.name;
+      const extension = originalName.substring(originalName.lastIndexOf("."));
+      const fileName = Date.now().toString() + extension;
+      const storageFileRef = ref(storage, "file/" + fileName);
+      await uploadBytes(storageFileRef, file);
+      fileUrl = await getDownloadURL(storageFileRef);
+    }
+
+    const updateData = {
+      title: data?.title,
+      category: data?.category,
+      description: data?.description,
+      price: data?.price,
+    };
+
+    if (imageUrl) updateData.imageUrl = imageUrl;
+    if (fileUrl) updateData.fileUrl = fileUrl;
+
+    const result = await db
+      .update(productsTable)
+      .set(updateData)
+      .where(
+        and(
+          eq(productsTable.id, data.productId),
+          eq(productsTable.createdBy, user.primaryEmailAddress.emailAddress)
+        )
+      )
+      .returning();
+
+    return NextResponse.json(result[0]);
+  } catch (e) {
+    console.error("Error updating product:", e);
+    return NextResponse.json(
+      { error: e.message || "Failed to update product" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(req) {
+  try {
+    const { id, isFeatured } = await req.json();
+
+    const result = await db
+      .update(productsTable)
+      .set({ isFeatured })
+      .where(eq(productsTable.id, id))
+      .returning();
+
+    return NextResponse.json(result[0]);
+  } catch (e) {
+    console.error("Error updating featured status:", e);
+    return NextResponse.json(
+      { error: e.message || "Failed to update featured status" },
       { status: 500 }
     );
   }

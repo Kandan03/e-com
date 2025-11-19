@@ -14,10 +14,10 @@ const ProductsList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const result = await axios.get("/api/products?limit=8");
+        const result = await axios.get("/api/products/featured");
         setProducts(result.data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching featured products:", error);
       } finally {
         setLoading(false);
       }

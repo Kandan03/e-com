@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { useCart } from "@/contexts/CartContext";
 
 const menuList = [
   {
@@ -24,6 +25,8 @@ const menuList = [
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isSignedIn, isLoaded } = useUser();
+  const { getCartCount } = useCart();
+  const cartCount = getCartCount();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -50,9 +53,16 @@ const Header = () => {
           ))}
         </ul>
         <div className="flex items-center gap-3">
-          <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
-            <ShoppingBag className="w-6 h-6" />
-          </div>
+          <Link href="/cart">
+            <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
+              <ShoppingBag className="w-6 h-6" />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
+            </div>
+          </Link>
           {!isLoaded ? (
             <Skeleton className="h-8 w-8 rounded-full" />
           ) : (

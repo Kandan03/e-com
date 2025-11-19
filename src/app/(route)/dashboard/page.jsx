@@ -1,6 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserListing from "./_components/UserListing";
+import UserPurchases from "./_components/UserPurchases";
 
 export const metadata = {
   title: "Dashboard - Jupiterax",
@@ -30,12 +31,7 @@ const Dashboard = () => {
           <UserListing />
         </TabsContent>
         <TabsContent value="purchase" className="mt-6">
-          <div className="text-center py-20 bg-muted/30 rounded-lg">
-            <h3 className="text-2xl font-semibold mb-2">Coming Soon</h3>
-            <p className="text-gray-600">
-              Your purchase history will be displayed here
-            </p>
-          </div>
+          <UserPurchases />
         </TabsContent>
       </Tabs>
     </div>

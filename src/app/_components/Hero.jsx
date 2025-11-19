@@ -1,13 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import axios from "axios";
 
-const FuzzyOverlayExample = () => {
+const FuzzyOverlayExample = ({ heroTitle, heroSubtitle }) => {
   return (
     <div className="relative overflow-hidden">
-      <ExampleContent />
+      <ExampleContent heroTitle={heroTitle} heroSubtitle={heroSubtitle} />
       <FuzzyOverlay />
     </div>
   );
@@ -34,7 +35,7 @@ const FuzzyOverlay = () => {
   );
 };
 
-const ExampleContent = () => {
+const ExampleContent = ({ heroTitle, heroSubtitle }) => {
   return (
     <div className="relative grid h-max place-content-center space-y-6 bg-neutral-950 px-8 py-24 md:p-32">
       <motion.div
@@ -43,10 +44,10 @@ const ExampleContent = () => {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-center text-4xl md:text-6xl font-black text-neutral-50 font-orbitron">
-          Your Digital Marketplace
+          {heroTitle || "Your Digital Marketplace"}
         </h1>
         <h2 className="text-center text-2xl md:text-3xl font-bold text-primary mt-4">
-          Speed Up Your Creative Workflow
+          {heroSubtitle || "Speed Up Your Creative Workflow"}
         </h2>
       </motion.div>
       <motion.p
@@ -64,7 +65,7 @@ const ExampleContent = () => {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
       >
-        <Link href="/explore">
+        <Link href="/store">
           <Button size="lg" className="font-orbitron w-full sm:w-auto">
             Explore Products
           </Button>
@@ -80,7 +81,28 @@ const ExampleContent = () => {
 };
 
 const Hero = () => {
-  return <FuzzyOverlayExample />;
+  const [heroSettings, setHeroSettings] = useState({
+    heroTitle: "",
+    heroSubtitle: "",
+  });
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await axios.get("/api/settings");
+        setHeroSettings({
+          heroTitle: response.data.heroTitle || "",
+          heroSubtitle: response.data.heroSubtitle || "",
+        });
+      } catch (error) {
+        console.error("Error fetching hero settings:", error);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  return <FuzzyOverlayExample heroTitle={heroSettings.heroTitle} heroSubtitle={heroSettings.heroSubtitle} />;
 };
 
 export default Hero;

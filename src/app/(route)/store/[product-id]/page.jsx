@@ -7,7 +7,6 @@ import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
   ShoppingCartIcon, 
-  DownloadIcon, 
   TagIcon, 
   ArrowLeft,
   UserIcon,
@@ -15,9 +14,11 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useCart } from "@/contexts/CartContext";
 
 const ProductDetail = ({ params }) => {
   const router = useRouter();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [productId, setProductId] = useState(null);
@@ -72,9 +73,9 @@ const ProductDetail = ({ params }) => {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Product not found
           </h2>
-          <Button onClick={() => router.push("/explore")}>
+          <Button onClick={() => router.push("/store")}>
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Explore
+            Back to Store
           </Button>
         </div>
       </div>
@@ -87,10 +88,10 @@ const ProductDetail = ({ params }) => {
       <Button
         variant="ghost"
         className="mb-6"
-        onClick={() => router.push("/explore")}
+        onClick={() => router.push("/store")}
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Explore
+        Back to Store
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -174,29 +175,12 @@ const ProductDetail = ({ params }) => {
           <div className="flex flex-col sm:flex-row gap-3 mt-6">
             <Button
               size="lg"
-              className="flex-1 font-orbitron text-base h-14 bg-black hover:bg-gray-800 text-white"
+              className="w-full font-orbitron text-base h-14 bg-black hover:bg-gray-800 text-white"
+              onClick={() => addToCart(product)}
             >
               <ShoppingCartIcon className="w-5 h-5 mr-2" />
               Add to Cart
             </Button>
-            {product.fileUrl && (
-              <Button
-                size="lg"
-                variant="outline"
-                className="flex-1 h-14 border-2"
-                asChild
-              >
-                <a
-                  href={product.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                >
-                  <DownloadIcon className="w-5 h-5 mr-2" />
-                  Download Files
-                </a>
-              </Button>
-            )}
           </div>
 
           {/* Additional Info */}

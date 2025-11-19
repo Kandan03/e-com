@@ -31,6 +31,10 @@ const UserListing = () => {
     }
   }, [user?.primaryEmailAddress?.emailAddress]);
 
+  const handleDeleteProduct = (productId) => {
+    setListing((prevListing) => prevListing.filter((p) => p.id !== productId));
+  };
+
   useEffect(() => {
     if (isLoaded && user) {
       GetUserProductList();
@@ -87,7 +91,12 @@ const UserListing = () => {
                 </Card>
               ))
             : listing.map((product) => (
-                <ProductCardItem key={product.id} product={product} editable={true} />
+                <ProductCardItem 
+                  key={product.id} 
+                  product={product} 
+                  editable={true}
+                  onDelete={handleDeleteProduct}
+                />
               ))}
         </div>
       </div>

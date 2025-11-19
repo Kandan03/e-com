@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { MoreVerticalIcon, ShoppingCartIcon } from "lucide-react";
@@ -5,10 +6,20 @@ import Image from "next/image";
 import React from "react";
 import ProductEditableOption from "./ProductEditableOption";
 import Link from "next/link";
+import { useCart } from "@/contexts/CartContext";
 
-const ProductCardItem = ({ product, editable = false }) => {
+const ProductCardItem = ({ product, editable = false, onDelete }) => {
+  const { addToCart } = useCart();
+  
+  const handleCardClick = (e) => {
+    // Don't navigate if clicking on buttons or editable options
+    if (e.target.closest('button') || e.target.closest('[data-radix-popper-content-wrapper]')) {
+      e.preventDefault();
+    }
+  };
+  
   return (
-    <Link href={`/explore/${product.id}`} className="block">
+    <Link href={`/store/${product.id}`} className="block" onClick={handleCardClick}>
       <Card className="p-3">
         {product.imageUrl && (
           <div className="relative w-full h-48 overflow-hidden rounded-md bg-gray-100">
@@ -37,10 +48,18 @@ const ProductCardItem = ({ product, editable = false }) => {
             )}
             <h2 className="text-sm text-neutral-600">{product.user?.name}</h2>
             {!editable ? (
-              <Button className="ml-auto font-orbitron"><ShoppingCartIcon /></Button>
+              <Button 
+                className="ml-auto font-orbitron"
+                onClick={(e) => {
+                  e.preventDefault();
+                  addToCart(product);
+                }}
+              >
+                <ShoppingCartIcon />
+              </Button>
             ) : (
-              <div className="ml-auto">
-                <ProductEditableOption>
+              <div className="ml-auto" onClick={(e) => e.preventDefault()}>
+                <ProductEditableOption product={product} onDelete={onDelete}>
                   <MoreVerticalIcon className="w-5 h-5 cursor-pointer" />
                 </ProductEditableOption>
               </div>
